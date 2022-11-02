@@ -25,4 +25,4 @@ for j in table.find_all('tr')[1:]:
     length = len(df)
     df.loc[length] = row
 
-df
+df.to_csv('D:/Udemy/Web Scraping in Python with BeautifulSoup and Selenium/Coding Exercises/nfl_stats.csv')
