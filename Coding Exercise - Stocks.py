@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 #1. remember to import the HTML into python
-url = 'https://www.marketwatch.com/investing/stock/tsla?mod=search_symbol'
+url = 'https://www.marketwatch.com/investing/stock/aapl'
 
 page = requests.get(url)
 
@@ -23,4 +23,5 @@ low, high = yearlyRange[0].text, yearlyRange[1].text
 
 #5. analyst rating
 rating = soup.find('li', class_ = 'analyst__option active').text
+
 price, close, low, high, rating
