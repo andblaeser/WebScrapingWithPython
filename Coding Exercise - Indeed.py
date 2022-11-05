@@ -48,3 +48,41 @@ while True:
         driver.get('https://www.indeed.com'+button)
     except:
         break
+    
+df['Date_num'] =  df['Date'].str.extract('(\d+)')
+
+def integer(x):
+    try:
+        return int(x)
+    except:
+        return 0
+    
+df['Date_num2'] = df['Date_num'].apply(integer)
+df.sort_values(by = ['Date_num2', 'Salary'], inplace = True)
+df = df[['Link', 'Title', 'Company', 'Location', 'Salary', 'Date']]
+df.to_csv('D:/Udemy/Web Scraping in Python with BeautifulSoup and Selenium/Coding Exercises/indeed.csv')
+
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email import encoders
+
+sender = 'andblaeser@gmail.com'
+receiver = 'andblaeser@gmail.com'
+
+msg = MIMEMultipart()
+msg['Subject'] = 'New Jobs on Indeed'
+msg['From'] = sender
+msg['To'] = ','.join(receiver)
+
+part = MIMEBase('application', 'octet-stream')
+part.set_payload(open('D:/Udemy/Web Scraping in Python with BeautifulSoup and Selenium/Coding Exercises/indeed.csv', 'rb').read())
+encoders.encode_base64(part)
+part.add_header('Content-Disposition', 'attachment; filename ="indeed.csv"')
+msg.attach(part)
+
+s = smtplib.SMTP_SSL(host = 'smtp.gmail.com', port = 465)
+s.login(user = sender, password = '4281992adbADB')
+s.sendmail(sender, receiver, msg.as_string())
+s.quit()
